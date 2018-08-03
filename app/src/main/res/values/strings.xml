@@ -1,0 +1,23 @@
+<resources>
+    <!-- General -->
+    <string name="app_name" translatable="false">Together</string>
+    <string name="next">Proximo</string>
+    <string name="save">Salvar</string>
+    <!-- Create Event Base -->
+    <string name="create_event">Diga-nos um pouco sobre seu evento</string>
+    <string name="event_name">Nome</string>
+    <string name="event_about">Sobre</string>
+    <!-- Create Event Detail -->
+    <string name="event_details">Conte-nos mais alguns detalhes</string>
+    <string name="event_price">Preço</string>
+    <string name="event_minage">Idade Mínima</string>
+    <string name="event_maxage">Idade Máxima</string>
+    <string name="event_minpart">Participações Mínimas</string>
+    <string name="event_maxpart">Participações Máximas</string>
+    <!-- Create Event Category -->
+    <string name="event_select_category">Seleciones as Categorias</string>
+    <string name="event_primary_category">Categoria Primária</string>
+    <string name="event_categories">Categorias</string>
+    <!-- Create Event Location -->
+    <string name="event_where_is">Onde será o evento?</string>
+</resources>
