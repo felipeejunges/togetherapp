@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ public class EventRegisterActivity extends FragmentActivity {
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private List<Fragment> fragments;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,48 @@ public class EventRegisterActivity extends FragmentActivity {
         fragments.add(new EventRegisterMapFragment());
         mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), fragments);
         mPager.setAdapter(mPagerAdapter);
+
+        gestureDetector = new GestureDetector(new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                Toast.makeText(EventRegisterActivity.this, "onDown", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+                Toast.makeText(EventRegisterActivity.this, "onShowPress", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                Toast.makeText(EventRegisterActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                Toast.makeText(EventRegisterActivity.this, "onScroll", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+                Toast.makeText(EventRegisterActivity.this, "onLongPress", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                Toast.makeText(EventRegisterActivity.this, "onFling", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+
+
     }
-    
+
+
 
     @Override
     public void onBackPressed() {

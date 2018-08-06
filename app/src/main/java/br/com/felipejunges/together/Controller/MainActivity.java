@@ -2,15 +2,20 @@ package br.com.felipejunges.together.Controller;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
 
 import br.com.felipejunges.together.Adapter.EventListAdapter;
 import br.com.felipejunges.together.Model.Event;
@@ -21,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView eventRecycler;
     private EventListAdapter adapter;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,64 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+
+
+        gestureDetector = new GestureDetector(new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                Toast.makeText(MainActivity.this, "onDown", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+                Toast.makeText(MainActivity.this, "onShowPress", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                Toast.makeText(MainActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                Toast.makeText(MainActivity.this, "onScroll", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+                Toast.makeText(MainActivity.this, "onLongPress", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                Toast.makeText(MainActivity.this, "onFling", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        eventRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+
+                View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+
+                return (view != null && gestureDetector.onTouchEvent(motionEvent));
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
