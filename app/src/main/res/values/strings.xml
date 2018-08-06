@@ -20,4 +20,14 @@
     <string name="event_categories">Categorias</string>
     <!-- Create Event Location -->
     <string name="event_where_is">Onde será o evento?</string>
+    <!-- Menu -->
+    <string name="new_event">Novo Evento</string>
+    <string name="clear">Limpar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_event_register">EventRegister</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_event_register_base">EventRegisterBase</string>
 </resources>

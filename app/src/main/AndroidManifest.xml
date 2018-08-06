@@ -16,7 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.EventForm"></activity>
+        <activity android:name=".Controller.EventForm" />
+        <activity
+            android:name=".Controller.EventRegisterFragments.EventRegister"
+            android:label="@string/title_activity_event_register"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.EventRegisterFragments.EventRegisterBaseFragment"
+            android:label="@string/title_activity_event_register_base"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Controller.EventRegisterActivity"></activity>
     </application>
 
 </manifest>
