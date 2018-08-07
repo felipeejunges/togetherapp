@@ -21,7 +21,9 @@ import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegis
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterCategoriesFragment;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterDetailsFragment;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterMapFragment;
+import br.com.felipejunges.together.Model.Event;
 import br.com.felipejunges.together.R;
+import br.com.felipejunges.together.Singleton.DataStore;
 
 public class EventRegisterActivity extends AppCompatActivity {
 
@@ -101,6 +103,8 @@ public class EventRegisterActivity extends AppCompatActivity {
     }
 
     public void onEventRegisterNextDetails(View v) {
+        txtEventName = base.getTxtEventName();
+        txtEventAbout = base.getTxtEventAbout();
 
         txtPrice = details.getTxtPrice();
         txtEventMinAge = details.getTxtEventMinAge();
@@ -119,19 +123,37 @@ public class EventRegisterActivity extends AppCompatActivity {
         } else {
             mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
         }
-        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
     }
 
     public void onEventRegisterSave(View v) {
+
+        txtEventName = base.getTxtEventName();
+        txtEventAbout = base.getTxtEventAbout();
+        txtPrice = details.getTxtPrice();
+        txtEventMinAge = details.getTxtEventMinAge();
+        txtEventMaxAge = details.getTxtEventMaxAge();
+        txtEventMinPart = details.getTxtEventMinPart();
+        txtEventMaxPart = details.getTxtEventMaxPart();
+        txtPrimaryCategory = categories.getTxtPrimaryCategory();
+
+        String name = txtEventName.getText().toString();
+        String about = txtEventAbout.getText().toString();
+        double price = Double.parseDouble(txtPrice.getText().toString());
+        int minage = Integer.parseInt(txtEventMinAge.getText().toString());
+        int maxage = Integer.parseInt(txtEventMaxAge.getText().toString());
+        int minpar = Integer.parseInt(txtEventMinPart.getText().toString());
+        int maxpar = Integer.parseInt(txtEventMaxPart.getText().toString());
+        String category = txtPrimaryCategory.getText().toString();
+
         txtLocation = map.getTxtLocation();
 
         String location = txtLocation.getText().toString();
         if(location.isEmpty()) {
             Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
         } else {
-            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+            DataStore.sharedInstance().addEvent(new Event(name, about, false, price, minage, maxage, minpar, maxpar, category));
+            finish();
         }
-        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
     }
 
     @Override

@@ -18,6 +18,7 @@ public class Event implements Serializable {
     private int minParticipation;
     private int maxParticipation;
     private String primaryCategory;
+    private double price;
     private List<Category> categories = new ArrayList<>();
 
     public Event(int id, String name, int profileImage, String primaryCategory) {
@@ -27,18 +28,20 @@ public class Event implements Serializable {
         this.primaryCategory = primaryCategory;
     }
 
-    public Event(int id, String name, String description, boolean unactive,
+    public Event(String name, String description, boolean unactive, double price,
                  int minAge, int maxAge, int minParticipation, int maxParticipation, String primaryCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.unactive = unactive;
+        this.price = price;
         this.minAge = minAge;
         this.maxAge = maxAge;
         this.minParticipation = minParticipation;
         this.maxParticipation = maxParticipation;
         this.primaryCategory = primaryCategory;
     }
+
 
     public int getId() {
         return id;
@@ -127,5 +130,13 @@ public class Event implements Serializable {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
