@@ -8,7 +8,7 @@
     android:padding="15dp">
 
     <EditText
-        android:id="@+id/txtPrimaryCategory_Create"
+        android:id="@+id/txtEventLocation_Create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/event_where_is"

@@ -1,16 +1,15 @@
 package br.com.felipejunges.together.Controller;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,52 +23,116 @@ import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegis
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterMapFragment;
 import br.com.felipejunges.together.R;
 
-public class EventRegisterActivity extends FragmentActivity {
+public class EventRegisterActivity extends AppCompatActivity {
 
     private CustomViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private List<Fragment> fragments;
 
-    private Button btnNextBase;
-    private Button btnNextCategories;
-    private Button btnNextDetails;
-    private Button btnSalvar;
-    private boolean enabled = false;
+    private EditText txtEventName;
+    private EditText txtEventAbout;
+    private EditText txtPrimaryCategory;
+    private EditText txtPrice;
+    private EditText txtLocation;
+    private EditText txtEventMinAge;
+    private EditText txtEventMaxAge;
+    private EditText txtEventMinPart;
+    private EditText txtEventMaxPart;
+
+    private EventRegisterBaseFragment base;
+    private EventRegisterDetailsFragment details;
+    private EventRegisterCategoriesFragment categories;
+    private EventRegisterMapFragment map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_register);
 
-        // Instantiate a ViewPager and a PagerAdapter.
         mPager = findViewById(R.id.containerEventRegister);
         fragments = new ArrayList<>();
-        fragments.add(new EventRegisterBaseFragment());
-        fragments.add(new EventRegisterDetailsFragment());
-        fragments.add(new EventRegisterCategoriesFragment());
-        fragments.add(new EventRegisterMapFragment());
+
+        base = new EventRegisterBaseFragment();
+        details = new EventRegisterDetailsFragment();
+        categories = new EventRegisterCategoriesFragment();
+        map = new EventRegisterMapFragment();
+
+        fragments.add(base);
+        fragments.add(details);
+        fragments.add(categories);
+        fragments.add(map);
         mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), fragments);
         mPager.setPagingEnabled(false);
         mPager.setAdapter(mPagerAdapter);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Cadastrar Eventos");
+
     }
 
     public void onEventRegisterNextBase(View v) {
-        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+
+        txtEventName = base.getTxtEventName();
+        txtEventAbout = base.getTxtEventAbout();
+
+        String name = txtEventName.getText().toString();
+        String about = txtEventAbout.getText().toString();
+
+        if(name.isEmpty() || about.isEmpty()) {
+            Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+        }
+
+
     }
 
     public void onEventRegisterNextCategories(View v) {
-        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+
+        txtPrimaryCategory = categories.getTxtPrimaryCategory();
+
+        String category = txtPrimaryCategory.getText().toString();
+
+        if(category.isEmpty()) {
+            Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+        }
     }
 
     public void onEventRegisterNextDetails(View v) {
+
+        txtPrice = details.getTxtPrice();
+        txtEventMinAge = details.getTxtEventMinAge();
+        txtEventMaxAge = details.getTxtEventMaxAge();
+        txtEventMinPart = details.getTxtEventMinPart();
+        txtEventMaxPart = details.getTxtEventMaxPart();
+
+        String price = txtPrice.getText().toString();
+        String minage = txtEventMinAge.getText().toString();
+        String maxage = txtEventMaxAge.getText().toString();
+        String minpar = txtEventMinPart.getText().toString();
+        String maxpar = txtEventMaxPart.getText().toString();
+
+        if(price.isEmpty() || minage.isEmpty() || maxage.isEmpty() || minpar.isEmpty() || maxpar.isEmpty()) {
+            Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+        }
         mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
     }
 
     public void onEventRegisterSave(View v) {
+        txtLocation = map.getTxtLocation();
+
+        String location = txtLocation.getText().toString();
+        if(location.isEmpty()) {
+            Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+        }
         mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
     }
-
 
     @Override
     public void onBackPressed() {
