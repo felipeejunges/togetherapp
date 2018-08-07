@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Controller.EventRegisterActivity">
 
-    <android.support.v4.view.ViewPager
+    <br.com.felipejunges.together.Adapter.CustomViewPager
         android:id="@+id/containerEventRegister"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

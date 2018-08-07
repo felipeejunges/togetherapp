@@ -9,11 +9,14 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.felipejunges.together.Adapter.CustomViewPager;
 import br.com.felipejunges.together.Adapter.ScreenSlidePagerAdapter;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterBaseFragment;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterCategoriesFragment;
@@ -23,10 +26,15 @@ import br.com.felipejunges.together.R;
 
 public class EventRegisterActivity extends FragmentActivity {
 
-    private ViewPager mPager;
+    private CustomViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private List<Fragment> fragments;
-    private GestureDetector gestureDetector;
+
+    private Button btnNextBase;
+    private Button btnNextCategories;
+    private Button btnNextDetails;
+    private Button btnSalvar;
+    private boolean enabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,55 +42,33 @@ public class EventRegisterActivity extends FragmentActivity {
         setContentView(R.layout.activity_event_register);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.containerEventRegister);
+        mPager = findViewById(R.id.containerEventRegister);
         fragments = new ArrayList<>();
         fragments.add(new EventRegisterBaseFragment());
         fragments.add(new EventRegisterDetailsFragment());
         fragments.add(new EventRegisterCategoriesFragment());
         fragments.add(new EventRegisterMapFragment());
         mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), fragments);
+        mPager.setPagingEnabled(false);
         mPager.setAdapter(mPagerAdapter);
-
-        gestureDetector = new GestureDetector(new GestureDetector.OnGestureListener() {
-            @Override
-            public boolean onDown(MotionEvent motionEvent) {
-                Toast.makeText(EventRegisterActivity.this, "onDown", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent motionEvent) {
-                Toast.makeText(EventRegisterActivity.this, "onShowPress", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public boolean onSingleTapUp(MotionEvent motionEvent) {
-                Toast.makeText(EventRegisterActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                Toast.makeText(EventRegisterActivity.this, "onScroll", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent motionEvent) {
-                Toast.makeText(EventRegisterActivity.this, "onLongPress", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                Toast.makeText(EventRegisterActivity.this, "onFling", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-
 
     }
 
+    public void onEventRegisterNextBase(View v) {
+        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+    }
+
+    public void onEventRegisterNextCategories(View v) {
+        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+    }
+
+    public void onEventRegisterNextDetails(View v) {
+        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+    }
+
+    public void onEventRegisterSave(View v) {
+        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+    }
 
 
     @Override

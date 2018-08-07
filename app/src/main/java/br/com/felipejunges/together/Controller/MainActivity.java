@@ -57,18 +57,18 @@ public class MainActivity extends AppCompatActivity {
         gestureDetector = new GestureDetector(new GestureDetector.OnGestureListener() {
             @Override
             public boolean onDown(MotionEvent motionEvent) {
-                Toast.makeText(MainActivity.this, "onDown", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, "onDown", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public void onShowPress(MotionEvent motionEvent) {
-                Toast.makeText(MainActivity.this, "onShowPress", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "onShowPress", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public boolean onSingleTapUp(MotionEvent motionEvent) {
-                Toast.makeText(MainActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MainActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongPress(MotionEvent motionEvent) {
-                Toast.makeText(MainActivity.this, "onLongPress", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MainActivity.this, "onLongPress", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                Toast.makeText(MainActivity.this, "onFling", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, "onFling", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
