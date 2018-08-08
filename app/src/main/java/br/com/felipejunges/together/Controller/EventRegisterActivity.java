@@ -69,12 +69,13 @@ public class EventRegisterActivity extends AppCompatActivity {
         fragments.add(details);
         fragments.add(categories);
         fragments.add(map);
+
         mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), fragments);
         mPager.setPagingEnabled(false);
         mPager.setAdapter(mPagerAdapter);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Cadastrar Eventos");
+        actionBar.setTitle("Cadastrar Eventos - Together");
 
         intializeEditText();
 
@@ -88,7 +89,6 @@ public class EventRegisterActivity extends AppCompatActivity {
             commitEvento(getSupportFragmentManager(), categories);
             commitEvento(getSupportFragmentManager(), map);
         }
-
 
     }
 
@@ -161,16 +161,14 @@ public class EventRegisterActivity extends AppCompatActivity {
         int maxpar = Integer.parseInt(txtEventMaxPart.getText().toString());
         String category = txtPrimaryCategory.getText().toString();
 
-
-
         String location = txtLocation.getText().toString();
         if(location.isEmpty()) {
             Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
         } else {
             Event event = new Event(name, about, false, price, minage, maxage,
                     minpar, maxpar, category, location);
-            if(oldEvent != null)  DataStore.sharedInstance().addEvent(event);
-            else DataStore.sharedInstance().editEvent(event, position);
+            if(oldEvent == null) {  DataStore.sharedInstance().addEvent(event); }
+            else { DataStore.sharedInstance().editEvent(event, position);  }
 
             finish();
         }

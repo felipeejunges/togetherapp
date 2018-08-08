@@ -39,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
         adapter = new EventListAdapter();
         eventRecycler.setAdapter(adapter);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Lista de Eventos - Together");
+
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         eventRecycler.setLayoutManager(manager);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Lista de Eventos");
 
         gestureDetector = new GestureDetector(new GestureDetector.OnGestureListener() {
             @Override
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onSingleTapUp(MotionEvent motionEvent) {
                 //  Toast.makeText(MainActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
-                View view = eventRecycler.findChildViewUnder(eventRecycler.getX(), eventRecycler.getY());
+                View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                 int position = eventRecycler.getChildAdapterPosition(view);
 
                 Intent intent = new Intent(MainActivity.this, EventRegisterActivity.class);
@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        eventRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        /*
+            eventRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        */
 
     }
 
