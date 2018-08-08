@@ -46,24 +46,10 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Lista de Eventos");
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-
-
         gestureDetector = new GestureDetector(new GestureDetector.OnGestureListener() {
             @Override
             public boolean onDown(MotionEvent motionEvent) {
-               // Toast.makeText(MainActivity.this, "onDown", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, "onDown", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -74,24 +60,34 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onSingleTapUp(MotionEvent motionEvent) {
-              //  Toast.makeText(MainActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(MainActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
+                View view = eventRecycler.findChildViewUnder(eventRecycler.getX(), eventRecycler.getY());
+                int position = eventRecycler.getChildAdapterPosition(view);
+
+                Intent intent = new Intent(MainActivity.this, EventRegisterActivity.class);
+                intent.putExtra("event", DataStore.sharedInstance().getEvent(position));
+                intent.putExtra("position", position);
+                startActivity(intent);
                 return false;
             }
 
             @Override
             public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                Toast.makeText(MainActivity.this, "onScroll", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, "onScroll", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public void onLongPress(MotionEvent motionEvent) {
-              //  Toast.makeText(MainActivity.this, "onLongPress", Toast.LENGTH_SHORT).show();
+                View view = eventRecycler.findChildViewUnder(eventRecycler.getX(), eventRecycler.getY());
+                int position = eventRecycler.getChildAdapterPosition(view);
+                DataStore.sharedInstance().removeEvent(position);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-               // Toast.makeText(MainActivity.this, "onFling", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, "onFling", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -116,6 +112,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 

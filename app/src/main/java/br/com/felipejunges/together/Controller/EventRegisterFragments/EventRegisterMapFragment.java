@@ -8,18 +8,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import br.com.felipejunges.together.Model.Event;
 import br.com.felipejunges.together.R;
 
 public class EventRegisterMapFragment extends Fragment {
     private EditText txtLocation;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_event_register_map, container, false);
-        txtLocation = rootView.findViewById(R.id.txtEventLocation_Create);
+       // txtLocation = rootView.findViewById(R.id.txtEventLocation_Create);
+        carregaCampos(rootView);
+        pegaParametros();
         return rootView;
+    }
+
+    private void pegaParametros() {
+        Bundle parametros = getArguments();
+        if(parametros != null) {
+            Event event = (Event) parametros.getSerializable("event");
+            populaCamposCom(event);
+        }
+    }
+
+    private void populaCamposCom(Event event) {
+        txtLocation.setText(event.getLocation());
+    }
+
+    private void carregaCampos(View view) {
+        txtLocation = view.findViewById(R.id.txtEventLocation_Create);
     }
 
     public EditText getTxtLocation() {

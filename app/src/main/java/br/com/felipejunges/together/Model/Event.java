@@ -19,6 +19,8 @@ public class Event implements Serializable {
     private int maxParticipation;
     private String primaryCategory;
     private double price;
+    private String location;
+
     private List<Category> categories = new ArrayList<>();
 
     public Event(int id, String name, int profileImage, String primaryCategory) {
@@ -28,8 +30,8 @@ public class Event implements Serializable {
         this.primaryCategory = primaryCategory;
     }
 
-    public Event(String name, String description, boolean unactive, double price,
-                 int minAge, int maxAge, int minParticipation, int maxParticipation, String primaryCategory) {
+    public Event(String name, String description, boolean unactive, double price, int minAge, int maxAge,
+                 int minParticipation, int maxParticipation, String primaryCategory, String location) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,6 +42,7 @@ public class Event implements Serializable {
         this.minParticipation = minParticipation;
         this.maxParticipation = maxParticipation;
         this.primaryCategory = primaryCategory;
+        this.location = location;
     }
 
 
@@ -138,5 +141,13 @@ public class Event implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

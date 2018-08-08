@@ -1,9 +1,12 @@
 package br.com.felipejunges.together.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +49,9 @@ public class EventRegisterActivity extends AppCompatActivity {
     private EventRegisterCategoriesFragment categories;
     private EventRegisterMapFragment map;
 
+    private int position;
+    Event oldEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +76,35 @@ public class EventRegisterActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Cadastrar Eventos");
 
+        intializeEditText();
+
+        Intent intent = getIntent();
+        oldEvent = (Event) intent.getSerializableExtra("event");
+        position = (int) intent.getSerializableExtra("position");
+
+        if(oldEvent != null) {
+            commitEvento(getSupportFragmentManager(), base);
+            commitEvento(getSupportFragmentManager(), details);
+            commitEvento(getSupportFragmentManager(), categories);
+            commitEvento(getSupportFragmentManager(), map);
+        }
+
+
     }
+
+    private void commitEvento(FragmentManager manager, Fragment fragmento) {
+        FragmentTransaction tx = manager.beginTransaction();
+        Bundle parametros = new Bundle();
+        parametros.putSerializable("event", oldEvent);
+        fragmento.setArguments(parametros);
+
+        tx.commit();
+    }
+
 
     public void onEventRegisterNextBase(View v) {
 
-        txtEventName = base.getTxtEventName();
-        txtEventAbout = base.getTxtEventAbout();
+        intializeEditText();
 
         String name = txtEventName.getText().toString();
         String about = txtEventAbout.getText().toString();
@@ -91,7 +120,7 @@ public class EventRegisterActivity extends AppCompatActivity {
 
     public void onEventRegisterNextCategories(View v) {
 
-        txtPrimaryCategory = categories.getTxtPrimaryCategory();
+        intializeEditText();
 
         String category = txtPrimaryCategory.getText().toString();
 
@@ -103,14 +132,8 @@ public class EventRegisterActivity extends AppCompatActivity {
     }
 
     public void onEventRegisterNextDetails(View v) {
-        txtEventName = base.getTxtEventName();
-        txtEventAbout = base.getTxtEventAbout();
+        intializeEditText();
 
-        txtPrice = details.getTxtPrice();
-        txtEventMinAge = details.getTxtEventMinAge();
-        txtEventMaxAge = details.getTxtEventMaxAge();
-        txtEventMinPart = details.getTxtEventMinPart();
-        txtEventMaxPart = details.getTxtEventMaxPart();
 
         String price = txtPrice.getText().toString();
         String minage = txtEventMinAge.getText().toString();
@@ -127,14 +150,7 @@ public class EventRegisterActivity extends AppCompatActivity {
 
     public void onEventRegisterSave(View v) {
 
-        txtEventName = base.getTxtEventName();
-        txtEventAbout = base.getTxtEventAbout();
-        txtPrice = details.getTxtPrice();
-        txtEventMinAge = details.getTxtEventMinAge();
-        txtEventMaxAge = details.getTxtEventMaxAge();
-        txtEventMinPart = details.getTxtEventMinPart();
-        txtEventMaxPart = details.getTxtEventMaxPart();
-        txtPrimaryCategory = categories.getTxtPrimaryCategory();
+        intializeEditText();
 
         String name = txtEventName.getText().toString();
         String about = txtEventAbout.getText().toString();
@@ -145,15 +161,31 @@ public class EventRegisterActivity extends AppCompatActivity {
         int maxpar = Integer.parseInt(txtEventMaxPart.getText().toString());
         String category = txtPrimaryCategory.getText().toString();
 
-        txtLocation = map.getTxtLocation();
+
 
         String location = txtLocation.getText().toString();
         if(location.isEmpty()) {
             Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
         } else {
-            DataStore.sharedInstance().addEvent(new Event(name, about, false, price, minage, maxage, minpar, maxpar, category));
+            Event event = new Event(name, about, false, price, minage, maxage,
+                    minpar, maxpar, category, location);
+            if(oldEvent != null)  DataStore.sharedInstance().addEvent(event);
+            else DataStore.sharedInstance().editEvent(event, position);
+
             finish();
         }
+    }
+
+    private void intializeEditText() {
+        txtEventName = base.getTxtEventName();
+        txtEventAbout = base.getTxtEventAbout();
+        txtPrice = details.getTxtPrice();
+        txtEventMinAge = details.getTxtEventMinAge();
+        txtEventMaxAge = details.getTxtEventMaxAge();
+        txtEventMinPart = details.getTxtEventMinPart();
+        txtEventMaxPart = details.getTxtEventMaxPart();
+        txtPrimaryCategory = categories.getTxtPrimaryCategory();
+        txtLocation = map.getTxtLocation();
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import br.com.felipejunges.together.Model.Event;
 import br.com.felipejunges.together.R;
 
 public class EventRegisterBaseFragment extends Fragment {
@@ -22,11 +23,29 @@ public class EventRegisterBaseFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_event_register_base, container, false);
 
-        txtEventName = rootView.findViewById(R.id.txtEventName_Create);
-        txtEventAbout = rootView.findViewById(R.id.txtEventAbout_Create);
-
+        carregaCampos(rootView);
+        pegaParametros();
         return rootView;
     }
+
+    private void pegaParametros() {
+        Bundle parametros = getArguments();
+        if(parametros != null) {
+            Event event = (Event) parametros.getSerializable("event");
+            populaCamposCom(event);
+        }
+    }
+
+    private void populaCamposCom(Event event) {
+        txtEventName.setText(event.getName());
+        txtEventAbout.setText(event.getDescription());
+    }
+
+    private void carregaCampos(View view) {
+        txtEventName = view.findViewById(R.id.txtEventName_Create);
+        txtEventAbout = view.findViewById(R.id.txtEventAbout_Create);
+    }
+
 
     public EditText getTxtEventName() {
         return txtEventName;

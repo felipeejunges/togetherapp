@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import br.com.felipejunges.together.Model.Event;
 import br.com.felipejunges.together.R;
 
 public class EventRegisterCategoriesFragment extends Fragment {
@@ -20,8 +21,26 @@ public class EventRegisterCategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_event_register_categories, container, false);
-        txtPrimaryCategory = rootView.findViewById(R.id.txtPrimaryCategory_Create);
+       // txtPrimaryCategory = rootView.findViewById(R.id.txtPrimaryCategory_Create);
+        carregaCampos(rootView);
+        pegaParametros();
         return rootView;
+    }
+
+    private void pegaParametros() {
+        Bundle parametros = getArguments();
+        if(parametros != null) {
+            Event event = (Event) parametros.getSerializable("event");
+            populaCamposCom(event);
+        }
+    }
+
+    private void populaCamposCom(Event event) {
+        txtPrimaryCategory.setText(event.getPrimaryCategory());
+    }
+
+    private void carregaCampos(View view) {
+        txtPrimaryCategory = view.findViewById(R.id.txtPrimaryCategory_Create);
     }
 
     public EditText getTxtPrimaryCategory() {
