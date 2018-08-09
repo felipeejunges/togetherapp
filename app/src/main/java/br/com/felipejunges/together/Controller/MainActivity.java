@@ -9,12 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import br.com.felipejunges.together.Adapter.EventListAdapter;
@@ -27,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView eventRecycler;
     private EventListAdapter adapter;
     private GestureDetector gestureDetector;
+
+    private int p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +72,11 @@ public class MainActivity extends AppCompatActivity {
                 View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                 int position = eventRecycler.getChildAdapterPosition(view);
 
+                Intent intentTest = new Intent(MainActivity.this, EventActivity.class);
                 Intent intent = new Intent(MainActivity.this, EventRegisterActivity.class);
                 intent.putExtra("event", DataStore.sharedInstance().getEvent(position));
                 intent.putExtra("position", position);
-                startActivity(intent);
+                startActivity(intentTest);
                 return false;
             }
 
@@ -79,15 +88,45 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongPress(MotionEvent motionEvent) {
-                View view = eventRecycler.findChildViewUnder(eventRecycler.getX(), eventRecycler.getY());
+                View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                 int position = eventRecycler.getChildAdapterPosition(view);
-                DataStore.sharedInstance().removeEvent(position);
-                adapter.notifyDataSetChanged();
+
+                Intent intent = new Intent(MainActivity.this, EventRegisterActivity.class);
+                intent.putExtra("event", DataStore.sharedInstance().getEvent(position));
+                intent.putExtra("position", position);
+                startActivity(intent);
+
             }
 
             @Override
             public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                // Toast.makeText(MainActivity.this, "onFling", Toast.LENGTH_SHORT).show();
+                View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+                /*
+                Animation fadeOut = new AlphaAnimation(1, 0);
+                fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+                fadeOut.setStartOffset(1000);
+                fadeOut.setDuration(1000);
+
+                AnimationSet animation = new AnimationSet(false); //change to false
+                animation.addAnimation(fadeOut);
+                view.setAnimation(animation);
+                */
+
+                p = eventRecycler.getChildAdapterPosition(view);
+
+                AlertDialog.Builder message = new AlertDialog.Builder(view.getContext());
+                message.setTitle("Tem certeza que deseja excluir o evento?");
+                message.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        DataStore.sharedInstance().removeEvent(p);
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                message.setNegativeButton("Não", null);
+                message.show();
                 return false;
             }
         });
@@ -113,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 
