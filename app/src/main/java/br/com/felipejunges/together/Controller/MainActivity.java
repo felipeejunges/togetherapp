@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
+
             eventRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
             @Override
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        */
 
     }
 
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menuAdd:
                 /*int items = DataStore.sharedInstance().getEvents().size() + 1;
                 DataStore.sharedInstance().addEvent(
-                        new Event(items, "Evento " + items, R.drawable.beach, "Categoria X" + items)
+                        new EventActivity(items, "Evento " + items, R.drawable.beach, "Categoria X" + items)
                 );
                 adapter.notifyDataSetChanged(); */
                 Intent intent = new Intent(MainActivity.this, EventRegisterActivity.class);
@@ -159,6 +158,12 @@ public class MainActivity extends AppCompatActivity {
                 message.setNegativeButton("Não", null);
                 message.show();
                 break;
+
+            case R.id.menu4Test:
+                Intent intentTest = new Intent(MainActivity.this, EventActivity.class);
+                startActivity(intentTest);
+                break;
+
         }
 
         return true;

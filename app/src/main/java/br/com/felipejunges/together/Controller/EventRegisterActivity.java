@@ -79,9 +79,16 @@ public class EventRegisterActivity extends AppCompatActivity {
 
         intializeEditText();
 
-        Intent intent = getIntent();
-        oldEvent = (Event) intent.getSerializableExtra("event");
-        position = (int) intent.getSerializableExtra("position");
+        try {
+
+            Intent intent = getIntent();
+            oldEvent = (Event) intent.getSerializableExtra("event");
+            position = (int) intent.getSerializableExtra("position");
+
+        } catch(Exception e) {
+            oldEvent = null;
+        }
+
 
         if(oldEvent != null) {
             commitEvento(getSupportFragmentManager(), base);

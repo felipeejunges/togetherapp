@@ -25,7 +25,8 @@
             android:name=".Controller.EventRegisterFragments.EventRegisterBaseFragment"
             android:label="@string/title_activity_event_register_base"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Controller.EventRegisterActivity"></activity>
+        <activity android:name=".Controller.EventRegisterActivity" />
+        <activity android:name=".Controller.EventActivity"></activity>
     </application>
 
 </manifest>

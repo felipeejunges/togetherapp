@@ -12,4 +12,9 @@
         android:title="@string/clear"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/menu4Test"
+        android:title="4 Test"
+        app:showAsAction="never"/>
+
 </menu>
