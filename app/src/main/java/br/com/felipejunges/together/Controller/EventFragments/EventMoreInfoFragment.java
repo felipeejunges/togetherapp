@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.felipejunges.together.Model.Event;
@@ -14,6 +15,13 @@ import br.com.felipejunges.together.R;
 public class EventMoreInfoFragment extends Fragment {
     private static final String TAG = "Tab1Fragment";
     View view;
+
+    TextView txtPrice;
+    TextView txtMinAge;
+    TextView txtMaxAge;
+    TextView txtMinPart;
+    TextView txtMaxPart;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,13 +49,20 @@ public class EventMoreInfoFragment extends Fragment {
     }
 
     private void populaCamposCom(Event event) {
-       // campoNome.setText(event.getName());
+        txtPrice.setText(String.valueOf(event.getPrice()));
+        txtMinAge.setText(String.valueOf(event.getMinAge()));
+        txtMaxAge.setText(String.valueOf(event.getMaxAge()));
+        txtMinPart.setText(String.valueOf(event.getMinParticipation()));
+        txtMaxPart.setText(String.valueOf(event.getMaxParticipation()));
 
     }
 
     private void carregaCampos(View view) {
-
-        //campoNome = (TextView) view.findViewById(R.id.txtNomeEvento);
+        txtPrice = view.findViewById(R.id.txtEventPrice);
+        txtMinAge =  view.findViewById(R.id.txtEventMinAge);
+        txtMaxAge = view.findViewById(R.id.txtEventMaxAge);
+        txtMinPart =  view.findViewById(R.id.txtEventMinParticipation);
+        txtMaxPart = view.findViewById(R.id.txtEventMaxParticipation);
     }
 
 }

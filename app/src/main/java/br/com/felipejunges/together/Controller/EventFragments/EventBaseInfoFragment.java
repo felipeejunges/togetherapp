@@ -19,6 +19,12 @@ import retrofit2.Response;
 public class EventBaseInfoFragment extends Fragment {
     private static final String TAG = "Tab1Fragment";
     View view;
+
+
+    TextView txtLocation;
+    TextView txtPrimaryCategory;
+    TextView txtAbout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,13 +53,16 @@ public class EventBaseInfoFragment extends Fragment {
     }
 
     private void populaCamposCom(Event event) {
-       // campoNome.setText(event.getName());
+        txtLocation.setText(event.getLocation());
+        txtPrimaryCategory.setText(event.getPrimaryCategory());
+        txtAbout.setText(event.getDescription());
 
     }
 
     private void carregaCampos(View view) {
-
-        //campoNome = (TextView) view.findViewById(R.id.txtNomeEvento);
+        txtLocation = view.findViewById(R.id.txtEventWhereIs);
+        txtPrimaryCategory =  view.findViewById(R.id.txtEventPrimaryCategory);
+        txtAbout = view.findViewById(R.id.txtEventAbout);
     }
 
 }

@@ -6,14 +6,117 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="100pt"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="More Info" />
+        android:text="@string/event_price"
+        android:textColor="@color/greyOne"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/txtEventPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_price"
+        android:textColor="@color/greyOne"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/divider"></LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_minage"
+        android:textColor="@color/greyOne"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/txtEventMinAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_minage"
+        android:textColor="@color/greyOne"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/divider"></LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_maxage"
+            android:textColor="@color/greyOne"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtEventMaxAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_maxage"
+            android:textColor="@color/greyOne"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/divider"></LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_minpart"
+            android:textColor="@color/greyOne"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtEventMinParticipation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_minpart"
+            android:textColor="@color/greyOne"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/divider"></LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_maxpart"
+            android:textColor="@color/greyOne"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtEventMaxParticipation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_maxpart"
+            android:textColor="@color/greyOne"/>
+
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -54,17 +54,17 @@ public class EventActivity extends AppCompatActivity {
         Intent intent = getIntent();
         event = (Event) intent.getSerializableExtra("event");
 
-        commitEvento(manager, eventBaseInfoFragment);
-        commitEvento(manager, eventMoreInfoFragment);
-
         toolbar = findViewById(R.id.toolbarEvent);
-
-        NestedScrollView nsv = findViewById(R.id.scroll);
-        nsv.setFillViewport(true);
 
         if(event != null && toolbar != null) {
             toolbar.setTitle(String.valueOf(event.getName()));
         }
+
+        commitEvento(manager, eventBaseInfoFragment);
+        commitEvento(manager, eventMoreInfoFragment);
+
+        NestedScrollView nsv = findViewById(R.id.scroll);
+        nsv.setFillViewport(true);
 
     }
 

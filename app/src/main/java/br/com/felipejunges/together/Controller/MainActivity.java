@@ -72,11 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                 int position = eventRecycler.getChildAdapterPosition(view);
 
-                Intent intentTest = new Intent(MainActivity.this, EventActivity.class);
-                Intent intent = new Intent(MainActivity.this, EventRegisterActivity.class);
+                Intent intent = new Intent(MainActivity.this, EventActivity.class);
                 intent.putExtra("event", DataStore.sharedInstance().getEvent(position));
                 intent.putExtra("position", position);
-                startActivity(intentTest);
+                startActivity(intent);
                 return false;
             }
 
@@ -197,11 +196,6 @@ public class MainActivity extends AppCompatActivity {
                 });
                 message.setNegativeButton("Não", null);
                 message.show();
-                break;
-
-            case R.id.menu4Test:
-                Intent intentTest = new Intent(MainActivity.this, EventActivity.class);
-                startActivity(intentTest);
                 break;
 
         }
