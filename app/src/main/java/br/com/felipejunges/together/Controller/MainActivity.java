@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onSingleTapUp(MotionEvent motionEvent) {
                 //  Toast.makeText(MainActivity.this, "onSingleTapUp", Toast.LENGTH_SHORT).show();
                 View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+
                 int position = eventRecycler.getChildAdapterPosition(view);
 
                 Intent intent = new Intent(MainActivity.this, EventActivity.class);
@@ -87,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongPress(MotionEvent motionEvent) {
+
+
+
+
                 View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                 int position = eventRecycler.getChildAdapterPosition(view);
 
@@ -97,9 +103,49 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            private static final int SWIPE_MIN_DISTANCE = 120;
+            private static final int SWIPE_MAX_OFF_PATH = 250;
+            private static final int SWIPE_THRESHOLD_VELOCITY = 100;
+
             @Override
-            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float velocityX, float velocityY ){
+
+
+                Log.d("---onFling---", motionEvent.toString() + motionEvent1.toString() + "");
+
+                try {
+                    if (Math.abs(motionEvent.getY() - motionEvent1.getY()) > SWIPE_MAX_OFF_PATH)
+                        return false;
+                    // right to left swipe
+                    if (motionEvent.getX() - motionEvent1.getX() > SWIPE_MIN_DISTANCE
+                            && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                        //do your code
+
+                    } else if (motionEvent1.getX() - motionEvent.getX() > SWIPE_MIN_DISTANCE
+                            && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+
+                        View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+                        p = eventRecycler.getChildAdapterPosition(view);
+
+                        AlertDialog.Builder message = new AlertDialog.Builder(view.getContext());
+                        message.setTitle("Tem certeza que deseja excluir o evento?");
+                        message.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                DataStore.sharedInstance().removeEvent(p);
+
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                        message.setNegativeButton("Não", null);
+                        message.show();
+
+                    }
+                } catch (Exception e) {
+                    // nothing
+                }
+
                 /*
                 Animation fadeOut = new AlphaAnimation(1, 0);
                 fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
@@ -110,22 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 animation.addAnimation(fadeOut);
                 view.setAnimation(animation);
                 */
-
-                p = eventRecycler.getChildAdapterPosition(view);
-
-                AlertDialog.Builder message = new AlertDialog.Builder(view.getContext());
-                message.setTitle("Tem certeza que deseja excluir o evento?");
-                message.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        DataStore.sharedInstance().removeEvent(p);
-
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-                message.setNegativeButton("Não", null);
-                message.show();
                 return false;
             }
         });
