@@ -16,6 +16,7 @@ import android.widget.TabHost;
 
 import br.com.felipejunges.together.Adapter.SectionsPageAdapter;
 import br.com.felipejunges.together.Controller.EventFragments.EventBaseInfoFragment;
+import br.com.felipejunges.together.Controller.EventFragments.EventMapLocationFragment;
 import br.com.felipejunges.together.Controller.EventFragments.EventMoreInfoFragment;
 import br.com.felipejunges.together.Model.Event;
 import br.com.felipejunges.together.R;
@@ -34,6 +35,7 @@ public class EventActivity extends AppCompatActivity {
 
     EventBaseInfoFragment eventBaseInfoFragment;
     EventMoreInfoFragment eventMoreInfoFragment;
+    EventMapLocationFragment eventMapLocationFragment;
 
     Toolbar toolbar;
 
@@ -62,6 +64,7 @@ public class EventActivity extends AppCompatActivity {
 
         commitEvento(manager, eventBaseInfoFragment);
         commitEvento(manager, eventMoreInfoFragment);
+        commitEvento(manager, eventMapLocationFragment);
 
         NestedScrollView nsv = findViewById(R.id.scroll);
         nsv.setFillViewport(true);
@@ -82,8 +85,10 @@ public class EventActivity extends AppCompatActivity {
 
         eventBaseInfoFragment = new EventBaseInfoFragment();
         eventMoreInfoFragment = new EventMoreInfoFragment();
+        eventMapLocationFragment = new EventMapLocationFragment();
         adapter.addFragment(eventBaseInfoFragment, "Resumo");
         adapter.addFragment(eventMoreInfoFragment, "Detalhes");
+        adapter.addFragment(eventMapLocationFragment, "Localização");
         viewPager.setAdapter(adapter);
     }
 }
