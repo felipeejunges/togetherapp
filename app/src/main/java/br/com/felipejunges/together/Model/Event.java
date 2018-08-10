@@ -23,6 +23,9 @@ public class Event implements Serializable {
 
     private List<Category> categories = new ArrayList<>();
 
+    public Event() {}
+
+
     public Event(int id, String name, int profileImage, String primaryCategory) {
         this.id = id;
         this.name = name;
