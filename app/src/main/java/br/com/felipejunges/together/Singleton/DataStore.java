@@ -30,9 +30,23 @@ public class DataStore {
         this.context = context;
         events = new ArrayList<>();
 
-        addEvent(new Event(1, "Evento Um", R.drawable.beach, "Categoria Um"));
-        addEvent(new Event(2, "Evento Dois", R.drawable.zyg2c, "Categoria Um"));
-        addEvent(new Event(3, "Evento Três", R.drawable.night, "Categoria Três"));
+        Event event1 = new Event(1, "Evento Um - Universidade", R.drawable.beach, "Categoria Um");
+        Event event2 = new Event(2, "Evento Dois - Avião", R.drawable.zyg2c, "Categoria Um");
+        Event event3 = new Event(3, "Evento Três - Onibus", R.drawable.night, "Categoria Três");
+
+        event1.setLocation("PUC Paraná Curitiba");
+        event1.setDescription("Evento Um da Categoria Um com descrição e localização na PUC Paraná Curitiba");
+        event1.setMinAge(18);
+
+        event2.setLocation("Aeroporto de Curitiba");
+        event2.setDescription("Evento Dois da Categoria Um com descrição e localização no Aeroporto");
+
+        event3.setLocation("Rodoviaria de Curitiba");
+        event3.setDescription("Evento Três da Categoria Três com descrição e localização na Rodoviaria");
+
+        addEvent(event1);
+        addEvent(event2);
+        addEvent(event3);
     }
 
     public void addEvent(Event event) {

@@ -49,7 +49,7 @@ public class EventMapLocationFragment extends SupportMapFragment implements OnMa
         MarkerOptions marcador = new MarkerOptions();
         marcador.position(posicao);
         marcador.title(evento.getName());
-        marcador.snippet(String.valueOf(evento.getPrimaryCategory()));
+            marcador.snippet(String.valueOf(evento.getPrimaryCategory()));
         mapa.addMarker(marcador);
     }
 
