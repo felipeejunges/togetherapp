@@ -33,6 +33,13 @@ public class Event implements Serializable {
         this.primaryCategory = primaryCategory;
     }
 
+    public Event(String name, String description, String primaryCategory, String location) {
+        this.name = name;
+        this.description = description;
+        this.primaryCategory = primaryCategory;
+        this.location = location;
+    }
+
     public Event(String name, String description, boolean unactive, double price, int minAge, int maxAge,
                  int minParticipation, int maxParticipation, String primaryCategory, String location) {
         this.id = id;

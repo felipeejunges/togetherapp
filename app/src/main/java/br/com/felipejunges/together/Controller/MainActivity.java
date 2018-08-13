@@ -2,6 +2,7 @@ package br.com.felipejunges.together.Controller;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -9,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -17,12 +17,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.felipejunges.together.Adapter.EventListAdapter;
 import br.com.felipejunges.together.Model.Event;
@@ -182,7 +187,115 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        loadData();
+    }
 
+    public void loadData() {
+
+        if (loadDataFromInternalStorage()) {
+            Toast.makeText(
+                    this,
+                    "Dados internos carregados",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            loadDataFromAssetsFolder();
+            Toast.makeText(
+                    this,
+                    "Dados carregados da pasta Assets",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    public boolean loadDataFromInternalStorage() {
+
+        try {
+            InputStream inputStream = openFileInput("events.txt");
+            InputStreamReader streamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(streamReader);
+            String line;
+            while((line = reader.readLine()) != null) {
+                String[] split = line.split("%-%");
+                String name = split[0];
+                String cat = split[1];
+                String loc = split[2];
+                String about  = split[3];
+                Event event = new Event(name, about, cat, loc);
+                DataStore.sharedInstance().addEvent(event);
+            }
+            reader.close();
+            streamReader.close();
+            inputStream.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public void loadDataFromAssetsFolder() {
+
+        AssetManager manager = getAssets();
+        try {
+            InputStream inputStream = manager.open("events.txt");
+            InputStreamReader streamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(streamReader);
+            List<Event> events = new ArrayList<>();
+            String line;
+            while((line = reader.readLine()) != null) {
+                String[] split = line.split("%-%");
+                String name = split[0];
+                String cat = split[1];
+                String loc = split[2];
+                String about  = split[3];
+                Event event = new Event(name, about, cat, loc);
+                events.add(event);
+                DataStore.sharedInstance().addEvent(event);
+            }
+            reader.close();
+            streamReader.close();
+            inputStream.close();
+            StringBuilder builder = new StringBuilder();
+
+            for (Event event: events) {
+                builder.append(event.getName());
+                builder.append("%-%");
+                builder.append(event.getPrimaryCategory());
+                builder.append("%-%");
+                builder.append(event.getLocation());
+                builder.append("%-%");
+                builder.append(event.getDescription());
+                builder.append("%-%");
+                builder.append("\n");
+            }
+
+            saveDataOnInternalStorage(builder.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean saveDataOnInternalStorage(String s) {
+
+        try {
+            OutputStream outputStream = openFileOutput("events.txt", MODE_PRIVATE);
+            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+            writer.write(s);
+            writer.flush();
+            writer.close();
+            outputStream.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     @Override
@@ -220,12 +333,28 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        DataStore.sharedInstance().clearCities();
+                        DataStore.sharedInstance().clearEvents();
                         adapter.notifyDataSetChanged();
                     }
                 });
                 message.setNegativeButton("Não", null);
                 message.show();
+                break;
+            case R.id.menuReset:
+                AlertDialog.Builder messageReset = new AlertDialog.Builder(this);
+                messageReset.setTitle("Tem certeza que deseja resetar os dados do aplicativo?");
+                messageReset.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        DataStore.sharedInstance().clearEvents();
+                        deleteFile("events.txt");
+                        loadData();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                messageReset.setNegativeButton("Não", null);
+                messageReset.show();
                 break;
 
         }

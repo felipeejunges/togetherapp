@@ -23,6 +23,7 @@
     <!-- Menu -->
     <string name="new_event">Novo Evento</string>
     <string name="clear">Limpar</string>
+    <string name="reset">Resetar</string>
 
     <!-- Error Messages -->
     <string name="fill_all_blanks">Favor preencher todos os campos obrigatórios</string>

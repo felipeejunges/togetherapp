@@ -28,8 +28,9 @@ public class DataStore {
     public void setContext(Context context) {
 
         this.context = context;
-        events = new ArrayList<>();
 
+        events = new ArrayList<>();
+        /*
         Event event1 = new Event(1, "Evento Um - Universidade", R.drawable.beach, "Categoria Um");
         Event event2 = new Event(2, "Evento Dois - Avião", R.drawable.zyg2c, "Categoria Um");
         Event event3 = new Event(3, "Evento Três - Onibus", R.drawable.night, "Categoria Três");
@@ -47,6 +48,8 @@ public class DataStore {
         addEvent(event1);
         addEvent(event2);
         addEvent(event3);
+
+        */
     }
 
     public void addEvent(Event event) {
@@ -64,7 +67,7 @@ public class DataStore {
         events.set(position, event);
     }
 
-    public void clearCities() {
+    public void clearEvents() {
 
         events.clear();
     }
