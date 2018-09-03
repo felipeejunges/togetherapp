@@ -12,9 +12,5 @@
         android:title="@string/clear"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/menuReset"
-        android:title="@string/reset"
-        app:showAsAction="never"/>
 
 </menu>

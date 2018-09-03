@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Event implements Serializable {
 
-    private int id;
+    private String id;
     private String name;
-    private int profileImage;
+    private String profileImage;
     private String description;
     private boolean unactive;
     private int minAge;
@@ -25,23 +25,8 @@ public class Event implements Serializable {
 
     public Event() {}
 
-
-    public Event(int id, String name, int profileImage, String primaryCategory) {
-        this.id = id;
-        this.name = name;
-        this.profileImage = profileImage;
-        this.primaryCategory = primaryCategory;
-    }
-
-    public Event(String name, String description, String primaryCategory, String location) {
-        this.name = name;
-        this.description = description;
-        this.primaryCategory = primaryCategory;
-        this.location = location;
-    }
-
     public Event(String name, String description, boolean unactive, double price, int minAge, int maxAge,
-                 int minParticipation, int maxParticipation, String primaryCategory, String location) {
+                 int minParticipation, int maxParticipation, String primaryCategory, String location, String profileImage) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -53,14 +38,15 @@ public class Event implements Serializable {
         this.maxParticipation = maxParticipation;
         this.primaryCategory = primaryCategory;
         this.location = location;
+        this.profileImage = profileImage;
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -128,11 +114,11 @@ public class Event implements Serializable {
         this.primaryCategory = primaryCategory;
     }
 
-    public int getProfileImage() {
+    public String getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(int profileImage) {
+    public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 

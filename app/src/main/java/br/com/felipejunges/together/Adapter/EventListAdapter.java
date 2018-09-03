@@ -1,5 +1,7 @@
 package br.com.felipejunges.together.Adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,8 +35,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
         holder.txtEventName.setText(event.getName());
         holder.txtEventCategory.setText(event.getPrimaryCategory());
-        if (event.getProfileImage() != 0)
-            holder.imgEventPicture.setBackgroundResource(event.getProfileImage());
+        if (!event.getProfileImage().isEmpty() && event.getProfileImage() != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(event.getProfileImage());
+           // Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+            holder.imgEventPicture.setImageBitmap(bitmap);
+            //holder.imgEventPicture.setBackgroundResource(event.getProfileImage());
+            //holder.imgEventPicture.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
+
 
     }
 

@@ -1,10 +1,12 @@
 package br.com.felipejunges.together.Singleton;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.felipejunges.together.Dao.DatabaseHelper;
 import br.com.felipejunges.together.Model.Event;
 import br.com.felipejunges.together.R;
 
@@ -12,6 +14,7 @@ public class DataStore {
 
     private static DataStore instance = null;
 
+    private DatabaseHelper db;
     private List<Event> events;
     private Context context;
 
@@ -28,52 +31,54 @@ public class DataStore {
     public void setContext(Context context) {
 
         this.context = context;
+        db = new DatabaseHelper(context);
+        events = db.getAllEvents();
 
         events = new ArrayList<>();
-        /*
-        Event event1 = new Event(1, "Evento Um - Universidade", R.drawable.beach, "Categoria Um");
-        Event event2 = new Event(2, "Evento Dois - Avião", R.drawable.zyg2c, "Categoria Um");
-        Event event3 = new Event(3, "Evento Três - Onibus", R.drawable.night, "Categoria Três");
 
-        event1.setLocation("PUC Paraná Curitiba");
-        event1.setDescription("Evento Um da Categoria Um com descrição e localização na PUC Paraná Curitiba");
-        event1.setMinAge(18);
-
-        event2.setLocation("Aeroporto de Curitiba");
-        event2.setDescription("Evento Dois da Categoria Um com descrição e localização no Aeroporto");
-
-        event3.setLocation("Rodoviaria de Curitiba");
-        event3.setDescription("Evento Três da Categoria Três com descrição e localização na Rodoviaria");
-
-        addEvent(event1);
-        addEvent(event2);
-        addEvent(event3);
-
-        */
     }
 
     public void addEvent(Event event) {
+        String id = db.addOrUpdateEvent(event);
+        if(id == null || id.isEmpty()) {
+            Toast.makeText(context, "Não foi possível salvar o evento: " + event.getName(), Toast.LENGTH_LONG).show();
+        } else {
+            events.add(event);
+        }
 
-        events.add(event);
     }
 
     public void removeEvent(int position) {
+        Event event = events.get(position);
+        if(db.deleteEvent(event)) {
+            events.remove(position);
+        } else {
+            Toast.makeText(context, "Não foi possível remover o evento: " + event.getName(), Toast.LENGTH_LONG).show();
+        }
 
-        events.remove(position);
     }
 
     public void editEvent(Event event, int position) {
+        String id = db.addOrUpdateEvent(event);
+        if(id == null || id.isEmpty()) {
+            Toast.makeText(context, "Não foi possível alterar o evento: " + event.getName(), Toast.LENGTH_LONG).show();
+        } else {
+            events.set(position, event);
+        }
 
-        events.set(position, event);
     }
 
     public void clearEvents() {
 
+        //events.forEach(x -> db.deleteEvent(x));
+
+        for(Event event : events) {
+            db.deleteEvent(event);
+        }
         events.clear();
     }
 
     public List<Event> getEvents() {
-
         return events;
     }
 

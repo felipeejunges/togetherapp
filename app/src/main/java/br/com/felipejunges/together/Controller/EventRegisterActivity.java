@@ -173,7 +173,7 @@ public class EventRegisterActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
         } else {
             Event event = new Event(name, about, false, price, minage, maxage,
-                    minpar, maxpar, category, location);
+                    minpar, maxpar, category, location, "");
             if(oldEvent == null) {  DataStore.sharedInstance().addEvent(event); }
             else { DataStore.sharedInstance().editEvent(event, position);  }
 

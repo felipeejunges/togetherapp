@@ -164,8 +164,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
             eventRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
             @Override
@@ -187,115 +185,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadData();
-    }
-
-    public void loadData() {
-
-        if (loadDataFromInternalStorage()) {
-            Toast.makeText(
-                    this,
-                    "Dados internos carregados",
-                    Toast.LENGTH_LONG).show();
-        } else {
-            loadDataFromAssetsFolder();
-            Toast.makeText(
-                    this,
-                    "Dados carregados da pasta Assets",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        adapter.notifyDataSetChanged();
-    }
-
-    public boolean loadDataFromInternalStorage() {
-
-        try {
-            InputStream inputStream = openFileInput("events.txt");
-            InputStreamReader streamReader = new InputStreamReader(inputStream);
-            BufferedReader reader = new BufferedReader(streamReader);
-            String line;
-            while((line = reader.readLine()) != null) {
-                String[] split = line.split("%-%");
-                String name = split[0];
-                String cat = split[1];
-                String loc = split[2];
-                String about  = split[3];
-                Event event = new Event(name, about, cat, loc);
-                DataStore.sharedInstance().addEvent(event);
-            }
-            reader.close();
-            streamReader.close();
-            inputStream.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public void loadDataFromAssetsFolder() {
-
-        AssetManager manager = getAssets();
-        try {
-            InputStream inputStream = manager.open("events.txt");
-            InputStreamReader streamReader = new InputStreamReader(inputStream);
-            BufferedReader reader = new BufferedReader(streamReader);
-            List<Event> events = new ArrayList<>();
-            String line;
-            while((line = reader.readLine()) != null) {
-                String[] split = line.split("%-%");
-                String name = split[0];
-                String cat = split[1];
-                String loc = split[2];
-                String about  = split[3];
-                Event event = new Event(name, about, cat, loc);
-                events.add(event);
-                DataStore.sharedInstance().addEvent(event);
-            }
-            reader.close();
-            streamReader.close();
-            inputStream.close();
-            StringBuilder builder = new StringBuilder();
-
-            for (Event event: events) {
-                builder.append(event.getName());
-                builder.append("%-%");
-                builder.append(event.getPrimaryCategory());
-                builder.append("%-%");
-                builder.append(event.getLocation());
-                builder.append("%-%");
-                builder.append(event.getDescription());
-                builder.append("%-%");
-                builder.append("\n");
-            }
-
-            saveDataOnInternalStorage(builder.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean saveDataOnInternalStorage(String s) {
-
-        try {
-            OutputStream outputStream = openFileOutput("events.txt", MODE_PRIVATE);
-            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-            writer.write(s);
-            writer.flush();
-            writer.close();
-            outputStream.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
     }
 
     @Override
@@ -339,22 +228,6 @@ public class MainActivity extends AppCompatActivity {
                 });
                 message.setNegativeButton("Não", null);
                 message.show();
-                break;
-            case R.id.menuReset:
-                AlertDialog.Builder messageReset = new AlertDialog.Builder(this);
-                messageReset.setTitle("Tem certeza que deseja resetar os dados do aplicativo?");
-                messageReset.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        DataStore.sharedInstance().clearEvents();
-                        deleteFile("events.txt");
-                        loadData();
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-                messageReset.setNegativeButton("Não", null);
-                messageReset.show();
                 break;
 
         }

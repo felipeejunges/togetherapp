@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:background="@drawable/zyg2c"
-                android:id="@+id/imgEventPicture_List"
+                android:id="@+id/imgEventPicture"
                 />
 
             <android.support.v7.widget.Toolbar

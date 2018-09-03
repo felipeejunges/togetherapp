@@ -1,6 +1,8 @@
 package br.com.felipejunges.together.Controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TabHost;
 
 import br.com.felipejunges.together.Adapter.SectionsPageAdapter;
@@ -37,6 +40,8 @@ public class EventActivity extends AppCompatActivity {
     EventMoreInfoFragment eventMoreInfoFragment;
     EventMapLocationFragment eventMapLocationFragment;
 
+    private ImageView imgEventPicture;
+
     Toolbar toolbar;
 
     @Override
@@ -54,6 +59,7 @@ public class EventActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         Intent intent = getIntent();
+
         event = (Event) intent.getSerializableExtra("event");
 
         toolbar = findViewById(R.id.toolbarEvent);
@@ -68,6 +74,18 @@ public class EventActivity extends AppCompatActivity {
 
         NestedScrollView nsv = findViewById(R.id.scroll);
         nsv.setFillViewport(true);
+
+
+        imgEventPicture = findViewById(R.id.imgEventPicture);
+
+        if (!event.getProfileImage().isEmpty() && event.getProfileImage() != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(event.getProfileImage());
+            // Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+            imgEventPicture.setImageBitmap(bitmap);
+            //imgEventPicture.setBackgroundResource(event.getProfileImage());
+            //imgEventPicture.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
+
 
     }
 
