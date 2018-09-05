@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS " + TB_EVENTS + "(" +
-                "id STRING, " +
+                "id CHAR(36) PRIMARY KEY, " +
                 "name VARCHAR(100) DEFAULT '', " +
                 "description TEXT DEFAULT '', " +
                 "unactive BIT DEFAULT 0, " +
@@ -60,11 +60,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private boolean eventExist(Event event) {
-        SQLiteDatabase db = getReadableDatabase();
-        String existe = "SELECT id FROM " + TB_EVENTS + " WHERE id=? LIMIT 1";
-        Cursor cursor = db.rawQuery(existe, new String[]{event.getId()});
-        int quantidade = cursor.getCount();
-        cursor.close();
+        int quantidade = 0;
+        if(event.getId() != null) {
+            SQLiteDatabase db = getReadableDatabase();
+            String existe = "SELECT id FROM " + TB_EVENTS + " WHERE id=? LIMIT 1";
+            Cursor cursor = db.rawQuery(existe, new String[]{event.getId()});
+            quantidade = cursor.getCount();
+            cursor.close();
+        }
         return quantidade > 0;
     }
 
@@ -81,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         newIdIfNeed(event);
         ContentValues dados = getDatesFromEvent(event);
         db.insert(TB_EVENTS, null, dados);
-        return event.getId();
+        return getEvent(event.getId()).getId();
     }
 
     private ContentValues getDatesFromEvent(Event event) {
@@ -132,11 +135,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return fillWithEvents(c);
     }
 
-    public List<Event> getEvent(String id) {
+    public Event getEvent(String id) {
         String sql = "SELECT * FROM " + TB_EVENTS + " WHERE id = '" + id + "'";
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(sql, null);
-        return fillWithEvents(c);
+        return fillWithEvents(c).get(0);
     }
 
     public boolean deleteEvent(Event event) {

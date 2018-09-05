@@ -20,6 +20,9 @@
     <string name="event_categories">Categorias</string>
     <!-- Create EventActivity Location -->
     <string name="event_where_is">Onde será o evento?</string>
+    <!-- Create EventActivity Image -->
+    <string name="event_select_primary_image">Selecione a imagem principal</string>
+
     <!-- Menu -->
     <string name="new_event">Novo Evento</string>
     <string name="clear">Limpar</string>

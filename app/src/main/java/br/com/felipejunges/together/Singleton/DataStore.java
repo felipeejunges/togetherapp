@@ -34,7 +34,6 @@ public class DataStore {
         db = new DatabaseHelper(context);
         events = db.getAllEvents();
 
-        events = new ArrayList<>();
 
     }
 
