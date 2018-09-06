@@ -33,8 +33,6 @@ public class DataStore {
         this.context = context;
         db = new DatabaseHelper(context);
         events = db.getAllEvents();
-
-
     }
 
     public void addEvent(Event event) {
@@ -70,7 +68,6 @@ public class DataStore {
     public void clearEvents() {
 
         //events.forEach(x -> db.deleteEvent(x));
-
         for(Event event : events) {
             db.deleteEvent(event);
         }
@@ -82,7 +79,16 @@ public class DataStore {
     }
 
     public Event getEvent(int position) {
-
         return events.get(position);
+    }
+
+    public  List<Event> search(String result) {
+        events = db.getSearchableEvents(result);
+        return events;
+    }
+
+    public List<Event> showAllEvents() {
+        events = db.getAllEvents();
+        return events;
     }
 }

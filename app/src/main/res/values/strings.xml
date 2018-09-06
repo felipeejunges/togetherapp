@@ -27,6 +27,7 @@
     <string name="new_event">Novo Evento</string>
     <string name="clear">Limpar</string>
     <string name="reset">Resetar</string>
+    <string name="search">Procurar</string>
 
     <!-- Error Messages -->
     <string name="fill_all_blanks">Favor preencher todos os campos obrigatórios</string>
@@ -38,6 +39,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_event_register_base">EventRegisterBase</string>
     <string name="title_activity_maps">Map</string>
+    <string name="searchHere">Digite Aqui</string>
+    <string name="showAll">Mostrar Todos</string>
 
 
 </resources>

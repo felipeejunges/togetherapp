@@ -168,4 +168,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public List<Event> getSearchableEvents(String result) {
+        String sql = "SELECT * FROM " + TB_EVENTS + " WHERE name LIKE '%" + result + "%'" +
+                " OR primaryCategory LIKE '%" + result + "%'" +
+                " OR location LIKE '%" + result + "%'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(sql, null);
+        return fillWithEvents(c);
+    }
 }

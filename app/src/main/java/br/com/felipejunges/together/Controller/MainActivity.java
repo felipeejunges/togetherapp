@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -95,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLongPress(MotionEvent motionEvent) {
 
-
-
-
                 View view = eventRecycler.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                 int position = eventRecycler.getChildAdapterPosition(view);
 
@@ -139,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 DataStore.sharedInstance().removeEvent(p);
-
                                 adapter.notifyDataSetChanged();
                             }
                         });
@@ -228,6 +225,30 @@ public class MainActivity extends AppCompatActivity {
                 });
                 message.setNegativeButton("Não", null);
                 message.show();
+                break;
+            case R.id.menuSearch:
+                AlertDialog.Builder search = new AlertDialog.Builder(this);
+                search.setTitle("Filtro de Eventos");
+                search.setMessage("Procure por nome, categoria ou localidade");
+                final EditText inputSearch = new EditText(this);
+                inputSearch.setHint(R.string.searchHere);
+                search.setView(inputSearch);
+                search.setPositiveButton("Procurar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String result = inputSearch.getText().toString();
+                        List<Event> events = DataStore.sharedInstance().search(result);
+                        adapter.setEvents(events);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                search.setNegativeButton("Cancelar", null);
+                search.show();
+                break;
+
+            case R.id.menuShowAll:
+                List<Event> events = DataStore.sharedInstance().showAllEvents();
+                adapter.setEvents(events);
+                adapter.notifyDataSetChanged();
                 break;
 
         }
