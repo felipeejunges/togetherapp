@@ -20,6 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <ImageView
         android:id="@+id/imgEventPicture"
         android:layout_width="match_parent"
@@ -27,8 +28,8 @@
         android:layout_marginTop="128dp"
         android:background="@drawable/zyg2c"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="onEventRegisterSelectImage"/>
 
     <Button
         android:id="@+id/btnEventRegisterNextImage"
