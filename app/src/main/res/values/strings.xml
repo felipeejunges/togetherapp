@@ -2,6 +2,7 @@
     <!-- General -->
     <string name="app_name" translatable="false">Together</string>
     <string name="next">Proximo</string>
+    <string name="select">Selecione</string>
     <string name="save">Salvar</string>
     <!-- Create EventActivity Base -->
     <string name="create_event">Diga-nos um pouco sobre seu evento</string>

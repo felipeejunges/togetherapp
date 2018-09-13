@@ -1,20 +1,22 @@
 package br.com.felipejunges.together.Controller;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,9 @@ import br.com.felipejunges.together.Adapter.ScreenSlidePagerAdapter;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterBaseFragment;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterCategoriesFragment;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterDetailsFragment;
+import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterImageFragment;
 import br.com.felipejunges.together.Controller.EventRegisterFragments.EventRegisterMapFragment;
+import br.com.felipejunges.together.Helper.EventFormHelper;
 import br.com.felipejunges.together.Model.Event;
 import br.com.felipejunges.together.R;
 import br.com.felipejunges.together.Singleton.DataStore;
@@ -43,14 +47,21 @@ public class EventRegisterActivity extends AppCompatActivity {
     private EditText txtEventMaxAge;
     private EditText txtEventMinPart;
     private EditText txtEventMaxPart;
+    private ImageView ivEventImage;
+    private String photoPath;
 
     private EventRegisterBaseFragment base;
     private EventRegisterDetailsFragment details;
+    private EventRegisterImageFragment images;
     private EventRegisterCategoriesFragment categories;
     private EventRegisterMapFragment map;
 
+
+
     private int position;
     Event oldEvent;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +73,13 @@ public class EventRegisterActivity extends AppCompatActivity {
 
         base = new EventRegisterBaseFragment();
         details = new EventRegisterDetailsFragment();
+        images = new EventRegisterImageFragment();
         categories = new EventRegisterCategoriesFragment();
         map = new EventRegisterMapFragment();
 
         fragments.add(base);
         fragments.add(details);
+        fragments.add(images);
         fragments.add(categories);
         fragments.add(map);
 
@@ -93,9 +106,14 @@ public class EventRegisterActivity extends AppCompatActivity {
         if(oldEvent != null) {
             commitEvento(getSupportFragmentManager(), base);
             commitEvento(getSupportFragmentManager(), details);
+            commitEvento(getSupportFragmentManager(), images);
             commitEvento(getSupportFragmentManager(), categories);
             commitEvento(getSupportFragmentManager(), map);
         }
+
+       // helper = new EventFormHelper(this);
+       // helper = new EventFormHelper(ivEventImage);
+        //helper = new EventFormHelper(images.getActivity());
 
     }
 
@@ -107,7 +125,6 @@ public class EventRegisterActivity extends AppCompatActivity {
 
         tx.commit();
     }
-
 
     public void onEventRegisterNextBase(View v) {
 
@@ -122,7 +139,6 @@ public class EventRegisterActivity extends AppCompatActivity {
             mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
         }
 
-
     }
 
     public void onEventRegisterNextCategories(View v) {
@@ -136,6 +152,10 @@ public class EventRegisterActivity extends AppCompatActivity {
         } else {
             mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
         }
+    }
+
+    public void onEventRegisterNextImage(View view) {
+        mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
     }
 
     public void onEventRegisterNextDetails(View v) {
@@ -168,12 +188,14 @@ public class EventRegisterActivity extends AppCompatActivity {
         int maxpar = Integer.parseInt(txtEventMaxPart.getText().toString());
         String category = txtPrimaryCategory.getText().toString();
 
+        String profileImage = String.valueOf(ivEventImage.getTag());
+
         String location = txtLocation.getText().toString();
         if(location.isEmpty()) {
             Toast.makeText(this, R.string.fill_all_blanks, Toast.LENGTH_SHORT).show();
         } else {
             Event event = new Event(name, about, false, price, minage, maxage,
-                    minpar, maxpar, category, location, "");
+                    minpar, maxpar, category, location, profileImage);
             if(oldEvent == null) {  DataStore.sharedInstance().addEvent(event); }
             else { DataStore.sharedInstance().editEvent(event, position);  }
 
@@ -190,8 +212,11 @@ public class EventRegisterActivity extends AppCompatActivity {
         txtEventMinPart = details.getTxtEventMinPart();
         txtEventMaxPart = details.getTxtEventMaxPart();
         txtPrimaryCategory = categories.getTxtPrimaryCategory();
+        ivEventImage = images.getImageView();
         txtLocation = map.getTxtLocation();
     }
+
+
 
     @Override
     public void onBackPressed() {
