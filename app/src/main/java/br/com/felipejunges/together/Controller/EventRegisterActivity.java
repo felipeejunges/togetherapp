@@ -56,19 +56,17 @@ public class EventRegisterActivity extends AppCompatActivity {
     private EventRegisterCategoriesFragment categories;
     private EventRegisterMapFragment map;
 
-    private EventFormHelper helper;
+
 
     private int position;
     Event oldEvent;
 
-    public static final int CODIGO_CAMERA = 567;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_register);
-
-        helper = new EventFormHelper(this);
 
         mPager = findViewById(R.id.containerEventRegister);
         fragments = new ArrayList<>();
@@ -113,6 +111,10 @@ public class EventRegisterActivity extends AppCompatActivity {
             commitEvento(getSupportFragmentManager(), map);
         }
 
+       // helper = new EventFormHelper(this);
+       // helper = new EventFormHelper(ivEventImage);
+        //helper = new EventFormHelper(images.getActivity());
+
     }
 
     private void commitEvento(FragmentManager manager, Fragment fragmento) {
@@ -138,18 +140,6 @@ public class EventRegisterActivity extends AppCompatActivity {
         }
 
     }
-
-    public void onEventRegisterSelectImage(View v) {
-        intializeEditText();
-
-        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoPath = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
-        File file = new File(photoPath);
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        startActivityForResult(intentCamera, CODIGO_CAMERA);
-
-    }
-
 
     public void onEventRegisterNextCategories(View v) {
 
@@ -226,16 +216,7 @@ public class EventRegisterActivity extends AppCompatActivity {
         txtLocation = map.getTxtLocation();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK) {
-            if (requestCode == CODIGO_CAMERA) {
-                ImageView foto = images.getImageView();
-                helper.carregaImagem(photoPath);
 
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {
